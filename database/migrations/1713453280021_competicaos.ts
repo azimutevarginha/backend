@@ -1,14 +1,17 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+import File from 'react'
 
 export default class extends BaseSchema {
-  protected tableName = 'articles'
+  protected tableName = 'competicoes'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.string('title').notNullable().unique()
-      table.string('lead').notNullable() 
-      table.text('main', 'longtext').notNullable()
+      table.string('nome').notNullable().unique()
+      table.string('data').notNullable() 
+      table.text('descricao', 'longtext').notNullable()
+      table.string('linkBoletim')
+      table.specificType('arqBoletim', File).notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
