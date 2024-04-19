@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.text('descricao', 'longtext').notNullable()
       table.string('linkBoletim')
       table.specificType('arqBoletim', File).notNullable()
-
+      table.string('linkInscricao')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
