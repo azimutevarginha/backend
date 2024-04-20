@@ -18,7 +18,7 @@ export default class Compet extends BaseModel {
   public linkBoletim: string
 
   @column()
-  public arqBoletim: File
+  public arqBoletim: string
 
   @column()
   public linkInscricao: string
