@@ -6,5 +6,7 @@ Route.get('/', async () => {
 
 Route.post("/register", "AuthController.register")
 Route.post("login", "AuthController.login")
-Route.post("/write", "ArticleController.write")
-Route.get("/read", "ArticleController.read")
+Route.post("/escreve_article", "ArticleController.write")
+Route.get("/ler_article", "ArticleController.read")
+Route.post("/escreve_competicao", "CompetController.write")
+Route.get("/ler_competicao", "CompetController.read")
