@@ -27,7 +27,9 @@ export default class CompetValidator {
         nome: schema.string({}, [
             rules.required()
         ]),
-        data: schema.date({}, [
+        data: schema.date({
+            format: 'yyyy-MM-dd'
+        }, [
             rules.required(),
         ]),
         descricao: schema.string({}, [

@@ -9,7 +9,7 @@ export default class Compet extends BaseModel {
   public nome: string
 
   @column()
-  public data: DateTime
+  public data: Date
 
   @column()
   public descricao: string
