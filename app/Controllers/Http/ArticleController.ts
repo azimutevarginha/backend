@@ -5,7 +5,7 @@ import ArticleValidator from '../../Validators/ArticleValidator'
 export default class ArticleController{
     public async escreveNoti({ request }: HttpContextContract) {
         const data = await request.validate(ArticleValidator)
-        const article = await Article.create(data)
+        const article = await Article.create({...data})
         return article
     }
     public async leNoti({ request }: HttpContextContract) {
