@@ -4,29 +4,9 @@ import GoogleDriveService from 'App/Services/GoogleDriveService'
 import CompetValidator from '../../Validators/CompetValidator'
 
 const fs = require('fs');
-const credentials = JSON.parse(fs.readFileSync('app\Services\client_secret_887865607362-stt5ougotg9t0gr4q2ggk21fkdccge79.apps.googleusercontent.com.json', 'utf-8'))
+const credentials = JSON.parse(fs.readFileSync('app/Services/client_secret_887865607362-stt5ougotg9t0gr4q2ggk21fkdccge79.apps.googleusercontent.com.json', 'utf-8'))
 const scopes = ['https://www.googleapis.com/auth/drive']
 const IdPasta = '1GfxpebCLfNWLGSYCDJyATI7KGzL1p6tu'
-
-// *CONVERSOR DE TIPOS DE ARQUIVO - CASO NECESSÁRIO
-//const { File } = require('interface-file');
-
-//function converToFile(multipartFile: any) {
-
-// *Crie um novo arquivo do tipo File
-//const interfaceFile = new File();
-
-// *Configure o nome do arquivo*/
-//interfaceFile.name = multipartFile.clientName;
-
-// *Configure o tipo MIME do arquivo
-//interfaceFile.type = multipartFile.headers['content-type'];
-
-// *Leia o conteúdo do arquivo e configure-o no arquivo de interface
-//interfaceFile.data = fs.readFileSync(multipartFile.tmpPath);
-
-//return interfaceFile;
-//}
 
 export default class CompetController {
 
