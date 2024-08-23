@@ -1,56 +1,42 @@
-import { google, drive_v3 } from 'googleapis';
-import fs from 'fs';
+import { google } from 'googleapis'
+import Env from '@ioc:Adonis/Core/Env'
+import fs from 'fs'
 
-interface UploadOptions {
-    file: { tmpPath: string | undefined };
-    filePath: string;
-    folderId: string;
-    fileName: string;
-}
+class GoogleDriveService {
+  private driveClient = new google.drive_v3.Drive({
+    auth: new google.auth.GoogleAuth({
+      credentials: {
+        client_email: Env.get('GOOGLE_DRIVE_CLIENT_EMAIL'),
+        private_key: Env.get('GOOGLE_DRIVE_PRIVATE_KEY'),
+      },
+      scopes: ['https://www.googleapis.com/auth/drive'],
+    }),
+  })
 
-export default class GoogleDriveService {
-    private readonly authClient: any;
-
-    constructor(credentials: any, scopes: string[]) {
-        const auth = new google.auth.GoogleAuth({
-            credentials: credentials,
-            scopes: scopes,
-        });
-
-        this.authClient = auth.getClient();
+  public async uploadFile(filePath: string, fileName: string, mimeType: string) {
+    const fileMetadata = {
+      name: fileName,
+      parents: [Env.get('GOOGLE_DRIVE_FOLDER_ID')],
     }
 
-    public async uploadFile(options: UploadOptions): Promise<string> {
-        const drive = google.drive({ version: 'v3', auth: await this.authClient });
-
-        // Leitura do arquivo
-        const fileContent = fs.readFileSync(options.filePath);
-
-        // Metadata do arquivo
-        const fileMetadata: Partial<drive_v3.Schema$File> = {
-            name: options.fileName,
-            parents: [options.folderId],
-        };
-
-        try {
-            // Upload do arquivo
-            const response = await drive.files.create({
-                requestBody: fileMetadata,
-                media: {
-                    mimeType: 'text/plain',
-                    body: fileContent,
-                },
-                fields: 'id',
-            });
-
-            // Verificar se o ID do arquivo está presente na resposta
-            if (response.data.id) {
-                return response.data.id;
-            } else {
-                throw new Error('ID do arquivo não está presente na resposta.');
-            }
-        } catch (error) {
-            throw new Error(`Erro ao enviar o arquivo: ${error.message}`);
-        }
+    const media = {
+      mimeType: mimeType,
+      body: fs.createReadStream(filePath),
     }
+
+    const response = await this.driveClient.files.create({
+      requestBody: fileMetadata,
+      media: media,
+      fields: 'id, webViewLink',
+    })
+
+    // Opcional: Apagar o arquivo local após o upload
+    fs.unlinkSync(filePath)
+
+    return response.data
+  }
+
+  // Outras funções relacionadas ao Google Drive podem ser adicionadas aqui
 }
+
+export default new GoogleDriveService()

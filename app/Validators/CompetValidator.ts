@@ -1,6 +1,6 @@
 import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import vine from '@vinejs/vine'
+//import vine from '@vinejs/vine'
 
 export default class CompetValidator {
     constructor(protected ctx: HttpContextContract) { }
@@ -39,7 +39,10 @@ export default class CompetValidator {
         linkBoletim: schema.string({}, [
             rules.required(),
         ]),
-        arqBoletim: schema.file({}, [
+        arqBoletim: schema.file({
+            size: '2mb',
+            extnames: ['.pdf'],
+        }, [
             rules.required(),
         ]),
         linkInscricao: schema.string({}, [
@@ -61,5 +64,14 @@ export default class CompetValidator {
      * }
      *
      */
-    public messages: CustomMessages = {}
+    public messages: CustomMessages = {
+        'arqBoletim.file.extname': 'O arquivo do boletim deve ser um arquivo PDF.',
+        'arqBoletim.file.size': 'O arquivo do boletim deve ter no máximo 2MB.',
+        'nome.required': 'O nome da competição é obrigatório.',
+        'data.required': 'A data da competição é obrigatória.',
+        'descricao.required': 'A descrição da competição é obrigatória.',
+        'linkBoletim.required': 'O link do boletim é obrigatório.',
+        'arqBoletim.required': 'O arquivo do boletim é obrigatório.',
+        'linkInscricao.required': 'O link de inscrição é obrigatório.',
+    }
 }
