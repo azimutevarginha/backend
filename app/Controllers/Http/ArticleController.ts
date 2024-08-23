@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Article from 'App/Models/Article'
+import Article from '../../Models/Article'
 import ArticleValidator from '../../Validators/ArticleValidator'
 
 export default class ArticleController{
